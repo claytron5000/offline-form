@@ -1,1 +1,0 @@
-{"id":"style.css","dependencies":[{"name":"/Users/clayton/Projects/pwa-example/package.json","includedInParent":true,"mtime":1539178190731}],"generated":{"css":"form {\n  max-width: 960px;\n  margin: auto;\n  background: #ffeeee;\n}\n\nform > * {\n  display: grid;\n}\n","js":""},"hash":"25a710445fe8459d72ee2fd1fe75dfc3","cacheData":{"env":{}}}
