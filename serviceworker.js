@@ -1,5 +1,5 @@
 
-const version = 'V0.08';
+const version = 'V0.07';
 const staticCacheName = version + 'staticfiles';
 
 
@@ -9,7 +9,8 @@ addEventListener('install', installEvent => {
         .then( staticCache => {
             return staticCache.addAll([
                 '/index.html',
-                '/style.e308ff8e.css'
+                '/style.css',
+                '/index_bundle.js'
             ])
         })
         .catch( error => {
@@ -18,9 +19,6 @@ addEventListener('install', installEvent => {
     )
 })
 
-addEventListener('activate', activateEvent => {
-    console.log('The service worker is activated.')
-})
 
 addEventListener('fetch', fetchEvent => {
 
@@ -28,16 +26,16 @@ addEventListener('fetch', fetchEvent => {
 
     fetchEvent.respondWith(
         // Check cache for request.
+        // cache = new Cache();
         caches.match(request)
-        .then( responseFromCache => {
-            console.log('check that caches match request', request)
-
-            if (responseFromCache) {
-                console.log('responsefromCache')
-                return responseFromCache;
-            }
-            console.log('response from fetch')
-            return fetch(request)
-        })
+            .then( responseFromCache => {
+                console.log('request matched something in cache')
+                if (responseFromCache) {
+                    console.log('responsefromCache', responseFromCache)
+                    return responseFromCache;
+                }
+                console.log('response from fetch', request)
+                return fetch(request)
+            })
     );
 })

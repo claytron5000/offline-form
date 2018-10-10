@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Offline Form Example</title>
+  <link rel="stylesheet" type="text/css" href="style.css"></link>
+</head>
+<body>
+  <h1>An offline example form</h1>
+  <p>You&#39;ve loaded the page which is the equivalent of downloading an app. In order to test functionality, turn off your wifi, or network connection. You can reload the page, fill out the form, and hit “save”. Expected behavior is the app continues to load <em>and</em> your data is preserved across page loads/network failures. The idea here is that will spotty or non-existent network connections, a user could still fill out the form, then, when the network is available, they would be able to submit the form. \</p>
+  <div id="root"></div>
+  <script>
+    if (navigator.serviceWorker) {
+      navigator.serviceWorker.register('/serviceworker.js')
+        .then( (registration) => {
+          console.log('registered!', registration.scope)
+        })
+        .catch( (error) => {
+          console.log('not registered', error)
+        })
+    }
+  </script>
+</body>
+</html>
