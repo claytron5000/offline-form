@@ -1,0 +1,19 @@
+{
+  "name": "pwa-example",
+  "version": "1.0.0",
+  "description": "An offline form example",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "CLayton",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2"
+  },
+  "devDependencies": {
+    "webpack": "^4.20.2",
+    "webpack-cli": "^3.1.2"
+  }
+}
