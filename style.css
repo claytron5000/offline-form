@@ -13,7 +13,7 @@ License URL ... https://raw.githubusercontent.com/matejlatin/Gutenberg/master/li
    ========================================================================== */
 /* Font themes
    ========================================================================== */
-@import url("https://fonts.googleapis.com/css?family=Merriweather:400,700,400italic");
+
 @media screen and (min-width: 40em) {
   .floatLeft {
     float: left;
@@ -723,7 +723,7 @@ html {
 form {
   max-width: 960px;
   margin: auto;
-  background: #edebeb;
+  background: #efebea;
   padding: 2rem;
   display: grid;
   grid-template-columns: 50% 50%;
@@ -755,6 +755,26 @@ h1 {
     margin-top: 0;
 }
 
-form  {
-
+button {
+    background-color: #3adb76;
+    color: #0a0a0a;
+    padding: 0.85em 1em;
+    border: 1px solid transparent;
+    border-radius: 0;
+    -webkit-transition: background-color 0.25s ease-out, color 0.25s ease-out;
+    transition: background-color 0.25s ease-out, color 0.25s ease-out;
+    font-family: inherit;
+    font-size: 0.9rem;
+    -webkit-appearance: none;
+    line-height: 1;
+    text-align: center;
+    cursor: pointer;
+}
+button:focus, button:hover {
+    background-color: #22bb5b;
+    color: #0a0a0a;
+}
+button.offline {
+    opacity: 0.25;
+    cursor: not-allowed;
 }

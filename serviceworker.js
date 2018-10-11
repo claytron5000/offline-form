@@ -1,6 +1,6 @@
 "use strict";
 
-const version = 'V0.14';
+const version = 'V0.17';
 const staticCacheName = version + 'staticfiles';
 
 
