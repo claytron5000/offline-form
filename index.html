@@ -13,7 +13,7 @@
   <div id="root"></div>
   <script>
     if (navigator.serviceWorker) {
-      navigator.serviceWorker.register('/serviceworker.js')
+      navigator.serviceWorker.register('serviceworker.js')
         .then( (registration) => {
           console.log('registered!', registration.scope)
         })
