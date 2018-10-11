@@ -9,7 +9,17 @@
 </head>
 <body>
   <h1>An offline example form</h1>
-  <p>You&#39;ve loaded the page, congratulations. In order to test functionality, turn off your wifi, or network connection. You can reload the page, fill out the form, and hit “save”. Expected behavior is the app continues to load <em>and</em> your data is preserved across page loads/network failures. The idea here is that will spotty or non-existent network connections, a user could still fill out the form, then, when the network is available, they would be able to submit the form. \</p>
+  <p>You&#39;ve loaded the page, congratulations! This is a demonstration of an offline form using <span class="pre">sessionStorage</span> for data, and a <span class="pre">serviceworker</span> and <span class="pre">Cache Storage</span> for the page files. </p>
+
+  <ul>
+  <li>fill in some fields</li>
+  <li>turn off your network connection (wifi and wired)</li>
+  <li>reload the page</li>
+  </ul>
+
+  <p>Expected behavior: The page changes to indicate you are working in offline mode, and the page loads with the entered data in the fields. </p>
+
+  <p>The expection is the credit card field. This is to note that sessionStorage, while ephemeral, is suseptible to cross site scripting, and should never be used to store sensative data. For this reason, a safer implemention might be to spansent a &quot;save&quot; button when offline, that way we aren&#39;t always saving the data in sessionStorage.</p>
   <div id="root"></div>
   <script>
     if (navigator.serviceWorker) {

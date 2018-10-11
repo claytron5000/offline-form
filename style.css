@@ -778,3 +778,7 @@ button.offline {
     opacity: 0.25;
     cursor: not-allowed;
 }
+span.pre {
+    font-family: monospace;
+    font-size: 1.2rem;
+}

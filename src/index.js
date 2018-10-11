@@ -39,6 +39,7 @@ class App extends React.Component {
     }
 
     goOffline() {
+        console.log('going offline')
         if (this.state.online) {
             this.setState({online: false})
         }
@@ -47,6 +48,11 @@ class App extends React.Component {
     componentDidMount() {
         window.addEventListener("online", this.goOnline);
         window.addEventListener("offline", this.goOffline);
+
+        // Check if we're loading this offline (ie. from cache)
+        if (!navigator.onLine) {
+            this.goOffline();
+        }
 
         this.formFields.forEach(field => {
             if (sessionStorage.getItem(field) && field !== 'creditcard') {
