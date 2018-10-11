@@ -12,10 +12,14 @@ class App extends React.Component {
             firstname: '',
             lastname: '',
             nickname: '',
-            'creditcard': ''
+            creditcard: '',
+            online: true
         }
 
-        this.handleChange = this.handleChange.bind(this)
+        this.handleChange = this.handleChange.bind(this);
+        this.goOnline = this.goOnline.bind(this);
+        this.goOffline = this.goOffline.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleChange(e) {
@@ -24,10 +28,26 @@ class App extends React.Component {
         this.setState({
             [key]: value
         })
+        this.setState({message: null})
         sessionStorage.setItem(key, value)
     }
 
+    goOnline() {
+        if (!this.state.online) {
+            this.setState({online: true})
+        }
+    }
+
+    goOffline() {
+        if (this.state.online) {
+            this.setState({online: false})
+        }
+    }
+
     componentDidMount() {
+        window.addEventListener("online", this.goOnline);
+        window.addEventListener("offline", this.goOffline);
+
         this.formFields.forEach(field => {
             if (sessionStorage.getItem(field) && field !== 'creditcard') {
                 this.setState({
@@ -37,9 +57,16 @@ class App extends React.Component {
         })
     }
 
+    handleSubmit(e) {
+        e.preventDefault();
+        this.setState({message: "This demo doesn't actually submit anywhere."})
+    }
+
     render() {
+        let button = this.state.online ? <button className="online">Send Form</button> : <button className="offline">Offline Mode</button>
+        let message = this.state.message ? this.state.message : '';
         return(
-            <form action="/">
+            <form onSubmit={this.handleSubmit}>
                 <div>
                     <label htmlFor="firstname">First Name</label>
                     <input
@@ -80,7 +107,8 @@ class App extends React.Component {
                         onChange={this.handleChange}
                     />
                 </div>
-                <div><button>Save</button></div>
+                <p>{message}</p>
+                <div>{button}</div>
             </form>
         )
     }
