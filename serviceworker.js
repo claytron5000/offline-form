@@ -1,9 +1,11 @@
+"use strict";
 
-const version = 'V0.07';
+const version = 'V0.14';
 const staticCacheName = version + 'staticfiles';
 
 
 addEventListener('install', installEvent => {
+    skipWaiting();
     installEvent.waitUntil(
         caches.open(staticCacheName)
         .then( staticCache => {
@@ -14,11 +16,28 @@ addEventListener('install', installEvent => {
             ])
         })
         .catch( error => {
-            console.log('Failed to cache');
+            console.log('Failed: ', error);
         })
     )
 })
 
+addEventListener('activate', activateEvent => {
+    activateEvent.waitUntil(
+        caches.keys()
+        .then( cacheNames => {
+            return Promise.all(
+                cacheNames.map( cacheName => {
+                    if (cacheName != staticCacheName) {
+                        return caches.delete(cacheName);
+                    } // end if
+                }) // end map
+            ); // end return Promise.all
+        }) // end keys then
+        .then( () => {
+            return clients.claim();
+        }) // end then
+    ); // end waitUntil
+}); // end addEventListener
 
 addEventListener('fetch', fetchEvent => {
 
@@ -26,10 +45,9 @@ addEventListener('fetch', fetchEvent => {
 
     fetchEvent.respondWith(
         // Check cache for request.
-        // cache = new Cache();
+        // delete old caches here
         caches.match(request)
             .then( responseFromCache => {
-                console.log('request matched something in cache')
                 if (responseFromCache) {
                     console.log('responsefromCache', responseFromCache)
                     return responseFromCache;
