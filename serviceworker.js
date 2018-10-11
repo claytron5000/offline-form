@@ -8,9 +8,9 @@ addEventListener('install', installEvent => {
         caches.open(staticCacheName)
         .then( staticCache => {
             return staticCache.addAll([
-                '/index.html',
-                '/style.css',
-                '/index_bundle.js'
+                'index.html',
+                'style.css',
+                'index_bundle.js'
             ])
         })
         .catch( error => {
