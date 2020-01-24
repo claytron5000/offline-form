@@ -1,36 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Offline Form Example</title>
-  <link rel="stylesheet" type="text/css" href="style.css"></link>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  </link>
 </head>
+
 <body>
   <h1>An offline example form</h1>
-  <p>You&#39;ve loaded the page, congratulations! This is a demonstration of an offline form using <span class="pre">sessionStorage</span> for data, and a <span class="pre">serviceworker</span> and <span class="pre">Cache Storage</span> for the page files. </p>
+  <p>You&#39;ve loaded the page, congratulations! This is a demonstration of an offline form using <span
+      class="pre">sessionStorage</span> for data, and a <span class="pre">serviceworker</span> and <span
+      class="pre">Cache Storage</span> for the page files. </p>
 
   <ul>
-  <li>fill in some fields</li>
-  <li>turn off your network connection (wifi and wired)</li>
-  <li>reload the page</li>
+    <li>fill in some fields</li>
+    <li>turn off your network connection (wifi and wired)</li>
+    <li>reload the page</li>
   </ul>
 
-  <p>Expected behavior: The page changes to indicate you are working in offline mode, and the page loads with the entered data in the fields. </p>
+  <p>Expected behavior: The page changes to indicate you are working in offline mode, and the page loads with the
+    entered data in the fields. </p>
 
-  <p>The expection is the credit card field. This is to note that sessionStorage, while ephemeral, is suseptible to cross site scripting, and should never be used to store sensative data. For this reason, a safer implemention might be to spansent a &quot;save&quot; button when offline, that way we aren&#39;t always saving the data in sessionStorage.</p>
+  <p>The exception is the credit card field. This is to note that sessionStorage, while ephemeral, is suseptible to
+    cross site scripting, and should never be used to store sensitive data.</p>
   <div id="root"></div>
   <script>
     if (navigator.serviceWorker) {
       navigator.serviceWorker.register('serviceworker.js')
-        .then( (registration) => {
+        .then((registration) => {
           console.log('registered!', registration.scope)
         })
-        .catch( (error) => {
+        .catch((error) => {
           console.log('not registered', error)
         })
     }
   </script>
 </body>
+
 </html>

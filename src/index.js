@@ -2,17 +2,43 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 
-class App extends React.Component {
+class FormContainer extends React.Component {
     constructor() {
         super()
         // The idea here is the form is initiated as an array and could be
         // constructed in render and in constructor instead of hard-coded.
         this.formFields = ['firstname', 'lastname', 'nickname'];
         this.state = {
-            firstname: '',
-            lastname: '',
-            nickname: '',
-            creditcard: '',
+            formFields: {
+                "firstname": {
+                    field: "firstname",
+                    value: '',
+                    saveAble: true,
+                    label: "First Name",
+                    type: "text"
+                },
+                "lastname": {
+                    field: "lastname",
+                    value: '',
+                    saveAble: true,
+                    label: "Last Name",
+                    type: "text"
+                },
+                "nickname": {
+                    field: "nickname",
+                    value: '',
+                    saveAble: true,
+                    label: "Nick Name",
+                    type: "text"
+                },
+                "creditCard": {
+                    field: "creditCard",
+                    value: '',
+                    saveAble: false,
+                    label: "Credit Card",
+                    type: "text"
+                }
+            },
             online: true
         }
 
@@ -23,25 +49,32 @@ class App extends React.Component {
     }
 
     handleChange(e) {
+
         let key = e.target.name;
         let value = e.target.value;
+
+        let formFields = { ...this.state.formFields };
+        formFields[key]['value'] = value;
+
         this.setState({
-            [key]: value
-        })
-        this.setState({message: null})
-        sessionStorage.setItem(key, value)
+            formFields
+        });
+        this.setState({ message: null })
+
+        localStorage.setItem(key, value)
+
     }
 
     goOnline() {
         if (!this.state.online) {
-            this.setState({online: true})
+            this.setState({ online: true })
         }
     }
 
     goOffline() {
         console.log('going offline')
         if (this.state.online) {
-            this.setState({online: false})
+            this.setState({ online: false })
         }
     }
 
@@ -53,71 +86,57 @@ class App extends React.Component {
         if (!navigator.onLine) {
             this.goOffline();
         }
-
-        this.formFields.forEach(field => {
-            if (sessionStorage.getItem(field) && field !== 'creditcard') {
-                this.setState({
-                    [field]: sessionStorage.getItem(field)
-                })
+        let formFields = { ...this.state.formFields };
+        Object.keys(formFields).forEach(fieldName => {
+            let itemValue = localStorage.getItem(fieldName);
+            if (itemValue) {
+                formFields[fieldName]['value'] = itemValue;
             }
-        })
+        });
+        this.setState({ formFields });
     }
 
     handleSubmit(e) {
         e.preventDefault();
-        this.setState({message: "This demo doesn't actually submit anywhere."})
+        this.setState({ message: "This demo doesn't actually submit anywhere." })
     }
 
     render() {
         let button = this.state.online ? <button className="online">Send Form</button> : <button className="offline">Offline Mode</button>
         let message = this.state.message ? this.state.message : '';
-        return(
-            <form onSubmit={this.handleSubmit}>
-                <div>
-                    <label htmlFor="firstname">First Name</label>
-                    <input
-                        type="text"
-                        id="firstname"
-                        name="firstname"
-                        value={this.state.firstname}
-                        onChange={this.handleChange}
-                    />
-                </div>
-                <div>
-                    <label htmlFor="lastname">Last Name</label>
-                    <input
-                        type="text"
-                        id="lastname"
-                        name="lastname"
-                        value={this.state.lastname}
-                        onChange={this.handleChange}
-                      />
-                </div>
-                <div>
-                    <label htmlFor="nickname">Nick Name</label>
-                    <input
-                        type="text"
-                        id="nickname"
-                        name="nickname"
-                        value={this.state.nickname}
-                        onChange={this.handleChange}
-                    />
-                </div>
-                <div>
-                    <label htmlFor="creditcard">Credit Card (not saved)</label>
-                    <input
-                        type="text"
-                        id="creditcard"
-                        name="creditcard"
-                        value={this.state.creditcard}
-                        onChange={this.handleChange}
-                    />
-                </div>
-                <p>{message}</p>
-                <div>{button}</div>
-            </form>
-        )
+        return (
+            <Form handleSubmit={this.handleSubmit} handleChange={this.handleChange} fields={this.state.formFields} button={button} message={message} />
+        );
     }
 }
 
-ReactDOM.render(<App/>, document.querySelector("#root"))
+function Form(props) {
+
+    return (
+        <form onSubmit={props.handleSubmit}>
+            {Object.keys(props.fields).map(fieldName => <Field key={fieldName} handleChange={props.handleChange} {...props.fields[fieldName]} />)}
+            <p>{props.message}</p>
+            <div>{props.button}</div>
+        </form>
+    );
+
+}
+
+function Field(props) {
+
+    return (
+        <div>
+            <label htmlFor={props.field}>{props.label}</label>
+            <input
+                type={props.type}
+                id={props.field}
+                name={props.field}
+                value={props.value}
+                onChange={(e) => props.handleChange(e)}
+            />
+        </div>
+    );
+
+}
+
+ReactDOM.render(<FormContainer />, document.querySelector("#root"))
